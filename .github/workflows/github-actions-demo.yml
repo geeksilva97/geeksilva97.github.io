@@ -35,5 +35,5 @@ jobs:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         uses: Ilshidur/action-discord@master
         with:
-          args: '@everyone, the project `{{ EVENT_PAYLOAD.repository.full_name }}` has been deployed. Version: **{{ env.RELEASE_VERSION }}**'
+          args: '@everyone, the project `{{ EVENT_PAYLOAD.repository.full_name }}` has been deployed. Version: **{{ RELEASE_VERSION }}**'
 
