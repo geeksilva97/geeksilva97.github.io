@@ -1,5 +1,11 @@
 name: GitHub Actions Demo
-on: [push]
+# on: [push]
+on:
+  push:
+    branches:
+      - 'master'
+    tags:
+      - '*'
 jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
@@ -15,10 +21,11 @@ jobs:
         run: |
           ls ${{ github.workspace }}
       - run: echo "🍏 This job's status is ${{ job.status }}."
+      
       - name: Discord notification
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         uses: Ilshidur/action-discord@master
         with:
-          args: 'The project {{ EVENT_PAYLOAD.repository.full_name }} has been deployed.'
+          args: 'The project `{{ EVENT_PAYLOAD.repository.full_name }}` has been deployed.'
 
