@@ -1,11 +1,11 @@
 name: GitHub Actions Demo
-# on: [push]
-on:
-  push:
-    branches:
-      - 'master'
-    tags:
-      - '*'
+on: [push]
+# on:
+#   push:
+#     branches:
+#       - 'master'
+#     tags:
+#       - '*'
 jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
@@ -22,10 +22,18 @@ jobs:
           ls ${{ github.workspace }}
       - run: echo "🍏 This job's status is ${{ job.status }}."
       
+      - name: Set env
+        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+        
+      - name: Test env
+        run: |
+          echo $RELEASE_VERSION
+          echo ${{ env.RELEASE_VERSION }}
+      
       - name: Discord notification
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         uses: Ilshidur/action-discord@master
         with:
-          args: 'The project `{{ EVENT_PAYLOAD.repository.full_name }}` has been deployed.'
+          args: '@everyone, the project `{{ EVENT_PAYLOAD.repository.full_name }}` has been deployed. Version: **{{ env.RELEASE_VERSION }}**'
 
